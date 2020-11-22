@@ -26,7 +26,22 @@ public class AudioIOSelector {
 		ac = new AudioContext(aoi);
 		//System.out.println(ac.getAudioIO().toString());
 	}
-	
+	private String[] removeAudioDescriptionFromOutputLog(String outputsWithDescriptions[]) {
+		int size = outputsWithDescriptions.length;
+		int newSize = 0;
+		for(int i = 0; i < size; i++) {
+			if(Character.isDigit(outputsWithDescriptions[i].charAt(0)));
+				newSize++;
+		}
+		String output[] = new String[newSize];
+		int j = 0;
+		for(int i = 0; i < size; i++) {
+			if(Character.isDigit(outputsWithDescriptions[i].charAt(0))){
+				output[j++] = outputsWithDescriptions[i];
+			}
+		}
+		return output;
+	}
 	public String[] getAudioOutputs() {
 		JavaSoundAudioIO aoi = new JavaSoundAudioIO();
 		
@@ -43,7 +58,7 @@ public class AudioIOSelector {
 		System.setOut(old);
 		// Get what happened
 		System.out.println("Here: " + baos.toString());
-		return baos.toString().split("\n");
+		return removeAudioDescriptionFromOutputLog(baos.toString().split("\n"));
 		//Source : https://stackoverflow.com/questions/8708342/redirect-console-output-to-string-in-java
 	}
 	public AudioContext getAudioContext() {

@@ -20,7 +20,6 @@ public class SynthEngine /*extends Thread*/{
 	ArrayList<WavePlayer> wavePlayers;
 	public SynthEngine(Interface interf) {
 		this.interf = interf;
-		//ac = interf.selectorList.selector.getAudioContext();
 		g = new Gain(ac, 1, 0.1f);
 		whichKeysArePressed = new ArrayList<Keys>(24);
 		notes = new ArrayList<WavePlayer>();
@@ -50,10 +49,10 @@ public class SynthEngine /*extends Thread*/{
 		g.setGain(0);
 		notes.clear();
 		System.out.println("end");
-		//g = null;
 	}
 	public void getPressedKeys() {
 		whichKeysArePressed= interf.piano.getPressedKeys();
+	
 		System.out.print(whichKeysArePressed.size());
 	}
 	public void startPlaying() {
@@ -61,23 +60,16 @@ public class SynthEngine /*extends Thread*/{
 		Noise n = null;
 		Notes noteFromKey = new Notes();
 		g = new Gain(ac, 1, 1f);
-		//ac = interf.selectorList.selector.getAudioContext();
 		for(int i = 0; i < whichKeysArePressed.size();i++) {
-			System.out.println("nyom");
 			Keys pressedKey = whichKeysArePressed.get(i);	
-			System.out.println("freq:"+noteFromKey.getFrequencyFromPressedKey(pressedKey));
 			notes.add(new WavePlayer(ac, noteFromKey.getFrequencyFromPressedKey(pressedKey), Buffer.SINE));
 		}
 		System.out.println(notes.size());
 		for(int i = 0; i < notes.size();i++) {
 			  g.addInput(notes.get(i));
 		}
-		System.out.println(ac.toString());
 		ac.out.addInput(g);
-		System.out.println("ezen fogok zenélni:" );
 		ac.start();
-		
-		
 	}
 	public void setAudioContext(AudioContext ac) {
 		this.ac = ac;

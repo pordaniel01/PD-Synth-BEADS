@@ -11,7 +11,6 @@ import net.beadsproject.beads.core.AudioContext;
 
 public class AuidioIOSelectorElement  {
 	JComboBox jComboBox;
-	JFrame openingWindow;
 	public AudioIOSelector selector;
 	private Interface interf;
 	public AuidioIOSelectorElement(Interface interf) {
@@ -32,7 +31,6 @@ public class AuidioIOSelectorElement  {
 		public void actionPerformed(ActionEvent e) {
 			int selected = jComboBox.getSelectedIndex();
 			String selStr = (String)jComboBox.getSelectedItem();
-			//System.out.println("selected: " + selected+ selStr);
 			try {
 				selector.selectMixer(selected);
 				interf.engine.setAudioContext(selector.getAudioContext());
@@ -40,6 +38,7 @@ public class AuidioIOSelectorElement  {
 				interf.setLogMessage(e1.getLocalizedMessage());
 			}
 			interf.setLogMessage("Selected audio IO: " + selStr);
+			interf.mainPanel.setFocusable(true);
 		}
 	};	
 }

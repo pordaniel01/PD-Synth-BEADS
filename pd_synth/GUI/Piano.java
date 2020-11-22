@@ -7,9 +7,14 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.JComponent;
 
@@ -17,7 +22,7 @@ import SynthSystem.Keys;
 import SynthSystem.SynthEngine;
 import net.beadsproject.beads.core.AudioContext;
 
-public class Piano extends JComponent implements MouseListener{
+public class Piano extends JComponent implements MouseListener, KeyListener{
 	Interface interf;
 	private ArrayList<Keys> pressedKeys;
 	private int numberOfKeys = 15;
@@ -29,6 +34,7 @@ public class Piano extends JComponent implements MouseListener{
 	private Point blackKeysPositions[] = new Point[10];
 	private Point keyPositions[] = new Point[15];
 	private SynthEngine engine;
+	private final Set<Integer> pressedKeyBoardKey = new HashSet<>();
 	public Piano(Interface interf) {
 		this.interf = interf;
 		pressedKeys = new ArrayList<Keys>(24);
@@ -146,17 +152,8 @@ public class Piano extends JComponent implements MouseListener{
 		if(pressedWhiteKey < 0 && pressedBlackKey < 0) {
 			interf.setLogMessage("");
 		}
-		System.out.println("wakiae");
-		engine.setAudioContext(interf.selectorList.selector.getAudioContext());
 		engine.getPressedKeys();	
-		engine.startPlaying();
-		
-		System.out.println("GEHFE");
-		//if(engine.getState() == Thread.State.WAITING) {
-			//engine.notify();
-		//	System.out.println("wakie");
-		//}
-		
+		engine.startPlaying();		
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -172,5 +169,61 @@ public class Piano extends JComponent implements MouseListener{
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		System.out.print("asdasd");
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println("asdasd"); 
+		switch(e.getKeyChar()) {
+			case 'a': pressedKeys.add(Keys.C); break;
+			case 's': pressedKeys.add(Keys.D); break;
+			case 'd': pressedKeys.add(Keys.E); break;
+			case 'f': pressedKeys.add(Keys.F); break;
+			case 'g': pressedKeys.add(Keys.G); break;
+			case 'h': pressedKeys.add(Keys.A); break;
+			case 'j': pressedKeys.add(Keys.H); break;
+			case 'k': pressedKeys.add(Keys.C1); break;
+			case 'l': pressedKeys.add(Keys.D1); break;
+			case 'w': pressedKeys.add(Keys.CS); break;
+			case 'e': pressedKeys.add(Keys.DS); break;
+			case 't': pressedKeys.add(Keys.FS); break;
+			case 'z': pressedKeys.add(Keys.GS); break;
+			case 'u': pressedKeys.add(Keys.C1S); break;
+			case 'i': pressedKeys.add(Keys.D1S); break;
+			case 'o': pressedKeys.add(Keys.F1S); break;
+		}
+		engine.getPressedKeys();	
+		engine.startPlaying();
+		/*pressedKeyBoardKey.add(e.getKeyCode());
+		if (!pressedKeyBoardKey.isEmpty()) {
+            for (Iterator<Keys> it = pressedKeys.iterator(); it.hasNext();) {
+                switch (it.next()) {
+                    case KeyEvent.VK_A:
+                    case KeyEvent.VK_S:
+                    case KeyEvent.VK_D:
+                    case KeyEvent.VK_F:
+                    case KeyEvent.VK_G:
+                    case KeyEvent.VK_H:
+                    case KeyEvent.VK_J:
+                    case KeyEvent.VK_K:
+                    case KeyEvent.VK_L:
+                    case KeyEvent.VK_W:
+                    case KeyEvent.VK_E:
+                    case KeyEvent.VK_T:
+                    case KeyEvent.VK_Z:
+                    case KeyEvent.VK_U:
+
+                }
+            }*/
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		//engine.stopPlaying();
+		//pressedKeys.clear();	
 	}
 }
