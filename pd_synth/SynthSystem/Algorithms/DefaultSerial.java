@@ -1,28 +1,35 @@
 package SynthSystem.Algorithms;
 
 import net.beadsproject.beads.core.AudioContext;
+import net.beadsproject.beads.data.Buffer;
 import net.beadsproject.beads.ugens.Function;
 import net.beadsproject.beads.ugens.WavePlayer;
 
 public class DefaultSerial implements Algorithm {
-	private float baseFreq;
-	public DefaultSerial(float baseFreq) {
-		this.baseFreq = baseFreq;
+	public DefaultSerial() {
+		
 	}
 	@Override
-	public WavePlayer producedWavePlayer(FreqModulator[] freqModulators, AudioContext ac, float baseFreq) {
-		WavePlayer FM1 = new WavePlayer(ac, freqModulators[0].getFrequency(), freqModulators[0].getBuffer());
-		WavePlayer FM2 = new WavePlayer(ac, freqModulators[1].getFrequency(), freqModulators[1].getBuffer());
-		WavePlayer FM3 = new WavePlayer(ac, freqModulators[2].getFrequency(), freqModulators[2].getBuffer());
-		WavePlayer FM4 = new WavePlayer(ac, freqModulators[3].getFrequency(), freqModulators[3].getBuffer());
+	public WavePlayer producedWavePlayer(float[] freqs, float[] intensities, Buffer[] buffs,  AudioContext ac, float baseFreq) {
+		WavePlayer FM1 = new WavePlayer(ac, freqs[0], buffs[0]);
+		WavePlayer FM2 = new WavePlayer(ac, freqs[1], buffs[1]);
+		WavePlayer FM3 = new WavePlayer(ac, freqs[2], buffs[2]);
+		WavePlayer FM4 = new WavePlayer(ac, freqs[3], buffs[3]);
+		for(int i = 0; i < 4; i++) {
+			System.out.println("freq" + i + freqs[i]);	
+			System.out.println("inten" + i + intensities[i]);	
+			//System.out.println(buffs[i].toString());	
+
+		}
 		Function func = new Function(FM1,FM2,FM3,FM4) {
 			@Override
 			public float calculate() {
-				return x[0] * freqModulators[0].getIntensity() + x[1] * freqModulators[1].getIntensity() + 
-						x[2] * freqModulators[2].getIntensity() + x[3] * freqModulators[3].getIntensity() + baseFreq;
+				return x[0] * intensities[0] + x[1] * intensities[1] + 
+						x[2] * intensities[2] + x[3] * intensities[3] + baseFreq;
 			}
 		};
-		return null;
+		WavePlayer output = new WavePlayer(ac, func, Buffer.SINE);
+		return output;
 	}
 	
 

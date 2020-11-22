@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import GUI.Interface;
+import SynthSystem.Algorithms.DefaultSerial;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.data.Buffer;
 import net.beadsproject.beads.ugens.Gain;
@@ -18,6 +19,7 @@ public class SynthEngine /*extends Thread*/{
 	private ArrayList<WavePlayer> notes;
 	Gain g;
 	ArrayList<WavePlayer> wavePlayers;
+	
 	public SynthEngine(Interface interf) {
 		this.interf = interf;
 		g = new Gain(ac, 1, 0.1f);
@@ -56,15 +58,20 @@ public class SynthEngine /*extends Thread*/{
 		System.out.print(whichKeysArePressed.size());
 	}
 	public void startPlaying() {
-		WavePlayer wp = null;
-		Noise n = null;
 		Notes noteFromKey = new Notes();
 		g = new Gain(ac, 1, 1f);
+		DefaultSerial alg1 = new DefaultSerial(); 
+		Buffer buffs[] = {Buffer.SINE,Buffer.SINE,Buffer.SINE,Buffer.SINE};
+		System.out.println("geci: " + interf.fmelement.getIntensites()[3]);
+		//alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), buffs, ac, noteFromKey.getFrequencyFromPressedKey(pressedKey))
 		for(int i = 0; i < whichKeysArePressed.size();i++) {
-			Keys pressedKey = whichKeysArePressed.get(i);	
-			notes.add(new WavePlayer(ac, noteFromKey.getFrequencyFromPressedKey(pressedKey), Buffer.SINE));
+			Keys pressedKey = whichKeysArePressed.get(i);
+			WavePlayer wpNEW = alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), buffs, ac, noteFromKey.getFrequencyFromPressedKey(pressedKey));
+			notes.add(wpNEW);
+			//notes.add(alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), buffs, ac, noteFromKey.getFrequencyFromPressedKey(pressedKey))
+//);
+			//notes.add(new WavePlayer(ac, noteFromKey.getFrequencyFromPressedKey(pressedKey), Buffer.SINE));
 		}
-		System.out.println(notes.size());
 		for(int i = 0; i < notes.size();i++) {
 			  g.addInput(notes.get(i));
 		}

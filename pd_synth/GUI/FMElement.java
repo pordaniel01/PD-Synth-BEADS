@@ -10,52 +10,92 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class FMElement extends Component{
 	private JSlider intensity[];
 	private JSlider frequency[];
+	private float freqs[];
+	private float intensities[];
 	private JPanel  FMPanel;
+	private JComboBox[] buffers;
 	public FMElement() {
 		intensity = new JSlider[4];
 		frequency = new JSlider[4];
+		buffers = new JComboBox[4];
+		freqs = new float[4];
+		intensities = new float[4];
+		for(int i = 0; i < 4; i++) {
+			freqs[0] = 0;
+		}
+		for(int i = 0; i < 4; i++) {
+			intensities[0] = 0;
+		}
 		FMPanel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		FMPanel.setLayout(layout);
 		GridBagConstraints c = new GridBagConstraints();
 		int padCounter = 0;
+		ChangeListener cl = new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				JSlider source = (JSlider)e.getSource();
+				String name = source.getName();
+				for(int i = 0; i < 4; i++) {
+					String num = String.valueOf(i);
+					String searchString =  num + "intensity"; 
+					if(name.equals(searchString)) {
+						intensities[i] = (float)source.getValue();
+						System.out.println("intensities["+i+"]=" +intensities[i]);
+					}
+
+				}
+				for(int i = 0; i < 4; i++) {
+					String searchString = String.valueOf(i) + "frequency"; 
+					if(name.equals(searchString))
+						freqs[i] = (float)source.getValue();
+				}
+
+				
+			}
+		};
+		
+		String bufferOptions[] = {"SINE", "SAW", "TRIANGLE", "SQUARE"};
 		for(int i = 0; i < 4; i++) {
+			buffers[i] = new JComboBox(bufferOptions);
 			intensity[i] = new JSlider(0, 500);
-			frequency[i] = new JSlider(0, 200);
+			frequency[i] = new JSlider(0, 50);
+			intensity[i].setValue(0);
+			frequency[i].setValue(0);
+			intensity[i].setName(String.valueOf(i)+"intensity");
+			frequency[i].setName(String.valueOf(i)+"frequency");
 			intensity[i].setMajorTickSpacing(100);
 			intensity[i].setMinorTickSpacing(10);
 			intensity[i].setPaintTicks(true);
 			intensity[i].setPaintLabels(true);
 			intensity[i].setOrientation(JSlider.VERTICAL);
-			frequency[i].setMajorTickSpacing(100);
-			frequency[i].setMinorTickSpacing(10);
+			intensity[i].addChangeListener(cl);
+			frequency[i].setMajorTickSpacing(10);
+			frequency[i].setMinorTickSpacing(5);
 			frequency[i].setPaintTicks(true);
 			frequency[i].setPaintLabels(true);
 			frequency[i].setOrientation(JSlider.VERTICAL);
-			JTextField text1 = new JTextField("Intensity " + (i+1));
-			JTextField text2 = new JTextField("Frequency " + (i+1));
+			frequency[i].addChangeListener(cl);
+			JTextField text1 = new JTextField("Frequency " + (i+1));
+			JTextField text2 = new JTextField("Intensity " + (i+1));
 			text1.setEditable(false);
 			text2.setEditable(false);
 			text1.setSelectedTextColor(Color.ORANGE);
 			text2.setSelectedTextColor(Color.BLUE);
 			text1.setHorizontalAlignment(JTextField.CENTER);
 			text2.setHorizontalAlignment(JTextField.CENTER);
-
-			//text1.setSize(WIDTH, 20);
-			//text2.setSize(WIDTH, 20);
-
-			//FMPanel.add(frequency[i]);
-			//FMPanel.add(intensity[i]);
-			//FMPanel.add(text1);
-			//FMPanel.add(text2);
 			
 			c.gridx = 0;
 			c.gridy = padCounter;
@@ -70,6 +110,12 @@ public class FMElement extends Component{
 			c.fill = GridBagConstraints.VERTICAL;
 			c.weighty = 1.0;
 			FMPanel.add(intensity[i],c);
+			
+			c.gridx = 2;
+			c.gridy = padCounter + 1;
+			c.weighty = 0;
+			c.ipady = 5;
+			FMPanel.add(buffers[i],c);
 			
 			c.weighty = 0;
 			c.weightx = 0;
@@ -88,6 +134,8 @@ public class FMElement extends Component{
 			c.weighty = 0;
 			FMPanel.add(text2,c);
 			padCounter += 2;
+			
+			
 		}	
 	}
 	public JSlider[] getIntensitySlider() {
@@ -99,12 +147,13 @@ public class FMElement extends Component{
 	public JPanel getFMPanel() {
 		return FMPanel;
 	}
-	ActionListener sliderAL = new  ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			
-		}
-	};
+	public float[] getIntensites() {
+		System.out.println("osztalybansd" +intensities[0]);
+
+		return intensities;
+	}
+	public float[] getFrequencies() {
+		return freqs;
+	}
+	
 }

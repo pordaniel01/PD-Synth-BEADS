@@ -17,6 +17,7 @@ public class Interface {
 	private JFrame mainframe;
 	public JPanel mainPanel;
 	public JPanel fmPanel;
+	public FMElement fmelement;
 	private Logger logger;
 	public Piano piano;
 	double versionNumber;
@@ -32,7 +33,8 @@ public class Interface {
 		piano = new Piano(this);
 		fmPanel = new JPanel();
 		fmPanel.setLayout(new BoxLayout(fmPanel,BoxLayout.Y_AXIS));
-		fmPanel.add(new FMElement());
+		fmelement = new FMElement();
+		fmPanel.add(fmelement);
 		piano.setSynthEngine(engine);
 		mainframe.setSize(1300, 700);	
 		//https://stackoverflow.com/questions/2442599/how-to-set-jframe-to-appear-centered-regardless-of-monitor-resolution
@@ -44,7 +46,7 @@ public class Interface {
 		//mainPanel.add(new FMElement().getFrequencySlider(),BorderLayout.WEST);
 		//mainPanel.add(new FMElement().getIntensitySlider(),BorderLayout.WEST);
 
-		mainframe.add(new FMElement().getFMPanel(),BorderLayout.WEST);
+		mainframe.add(fmelement.getFMPanel(),BorderLayout.WEST);
 		//west.add(new FMElement().getFMPanel());
 		//west.add(new FMElement().getFMPanel());
 		//west.add(new FMElement().getFMPanel());
