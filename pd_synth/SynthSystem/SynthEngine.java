@@ -66,7 +66,7 @@ public class SynthEngine /*extends Thread*/{
 		//alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), buffs, ac, noteFromKey.getFrequencyFromPressedKey(pressedKey))
 		for(int i = 0; i < whichKeysArePressed.size();i++) {
 			Keys pressedKey = whichKeysArePressed.get(i);
-			WavePlayer wpNEW = alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), buffs, ac, noteFromKey.getFrequencyFromPressedKey(pressedKey));
+			WavePlayer wpNEW = alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), interf.fmelement.getBuffers(), ac, noteFromKey.getFrequencyFromPressedKey(pressedKey));
 			notes.add(wpNEW);
 			//notes.add(alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), buffs, ac, noteFromKey.getFrequencyFromPressedKey(pressedKey))
 //);

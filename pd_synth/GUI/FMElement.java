@@ -18,17 +18,23 @@ import javax.swing.JTextPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import net.beadsproject.beads.data.Buffer;
+
 public class FMElement extends Component{
 	private JSlider intensity[];
 	private JSlider frequency[];
+	private Buffer bufferValues[];
 	private float freqs[];
 	private float intensities[];
 	private JPanel  FMPanel;
 	private JComboBox[] buffers;
-	public FMElement() {
+	private Interface iface;
+	public FMElement(Interface iface) {
+		this.iface = iface;
 		intensity = new JSlider[4];
 		frequency = new JSlider[4];
 		buffers = new JComboBox[4];
+		bufferValues = new Buffer[4];
 		freqs = new float[4];
 		intensities = new float[4];
 		for(int i = 0; i < 4; i++) {
@@ -51,16 +57,19 @@ public class FMElement extends Component{
 				for(int i = 0; i < 4; i++) {
 					String num = String.valueOf(i);
 					String searchString =  num + "intensity"; 
+					int nrOfModulator = i + 1;
 					if(name.equals(searchString)) {
 						intensities[i] = (float)source.getValue();
-						System.out.println("intensities["+i+"]=" +intensities[i]);
+						iface.setLogMessage("Frequency modulator number " + nrOfModulator + " intensity set to " + (float)source.getValue()  );
 					}
-
 				}
 				for(int i = 0; i < 4; i++) {
 					String searchString = String.valueOf(i) + "frequency"; 
-					if(name.equals(searchString))
+					int nrOfModulator = i + 1;
+					if(name.equals(searchString)) {
 						freqs[i] = (float)source.getValue();
+						iface.setLogMessage("Frequency modulator number " + nrOfModulator + " frequency set to " + (float)source.getValue() + " hertz");
+					}
 				}
 
 				
@@ -69,7 +78,11 @@ public class FMElement extends Component{
 		
 		String bufferOptions[] = {"SINE", "SAW", "TRIANGLE", "SQUARE"};
 		for(int i = 0; i < 4; i++) {
+			bufferValues[i] = Buffer.SINE;
+		}
+		for(int i = 0; i < 4; i++) {
 			buffers[i] = new JComboBox(bufferOptions);
+			buffers[i].addActionListener(bufferSelectorListener);
 			intensity[i] = new JSlider(0, 500);
 			frequency[i] = new JSlider(0, 50);
 			intensity[i].setValue(0);
@@ -155,5 +168,24 @@ public class FMElement extends Component{
 	public float[] getFrequencies() {
 		return freqs;
 	}
-	
+	public Buffer[] getBuffers() {
+		return bufferValues;
+	}
+	ActionListener bufferSelectorListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			for(int i = 0; i < 4; i++) {
+				if(buffers[i].getSelectedItem().equals("SINE"))
+					bufferValues[i] = Buffer.SINE;
+				else if(buffers[i].getSelectedItem().equals("SAW"))
+					bufferValues[i] = Buffer.SAW;
+				else if(buffers[i].getSelectedItem().equals("TRIANGLE"))
+					bufferValues[i] = Buffer.TRIANGLE;
+				else if(buffers[i].getSelectedItem().equals("SQUARE"))
+					bufferValues[i] = Buffer.SQUARE;
+			}
+			
+		}
+	};
 }

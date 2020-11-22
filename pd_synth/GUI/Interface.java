@@ -33,7 +33,7 @@ public class Interface {
 		piano = new Piano(this);
 		fmPanel = new JPanel();
 		fmPanel.setLayout(new BoxLayout(fmPanel,BoxLayout.Y_AXIS));
-		fmelement = new FMElement();
+		fmelement = new FMElement(this);
 		fmPanel.add(fmelement);
 		piano.setSynthEngine(engine);
 		mainframe.setSize(1300, 700);	
