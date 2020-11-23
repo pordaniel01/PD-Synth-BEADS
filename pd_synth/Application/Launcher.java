@@ -14,6 +14,7 @@ public class Launcher {
 		Interface iface = new Interface(0.01);
 		SynthEngine engine = new SynthEngine(iface);
 		iface.setSynthEngine(engine);
+		engine.setAudioContext(iface.selectorList.selector.getAudioContext());
 		//engine.start();
 
 	}

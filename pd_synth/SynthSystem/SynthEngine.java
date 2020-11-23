@@ -4,10 +4,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.GroupLayout.ParallelGroup;
+
 import GUI.Interface;
+import SynthSystem.Algorithms.DefaultParallel;
 import SynthSystem.Algorithms.DefaultSerial;
 import net.beadsproject.beads.core.AudioContext;
+import net.beadsproject.beads.core.Bead;
 import net.beadsproject.beads.data.Buffer;
+import net.beadsproject.beads.ugens.Envelope;
 import net.beadsproject.beads.ugens.Gain;
 import net.beadsproject.beads.ugens.Noise;
 import net.beadsproject.beads.ugens.WavePlayer;
@@ -19,6 +24,7 @@ public class SynthEngine /*extends Thread*/{
 	private ArrayList<WavePlayer> notes;
 	Gain g;
 	ArrayList<WavePlayer> wavePlayers;
+	private float volume;
 	
 	public SynthEngine(Interface interf) {
 		this.interf = interf;
@@ -32,23 +38,9 @@ public class SynthEngine /*extends Thread*/{
 	
 
 	public void stopPlaying() {
-		/*for(float i = g.getGain(); i > -0.5f; i -= 0.01f) {
-			System.out.println();
-			g.setGain(i);
-			try {
-				Thread.sleep(5);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		g.setGain(0);
+		//g.setGain(0);
+		//g.pause(true);
+		//g.addDependent(end);
 		notes.clear();
 		System.out.println("end");
 	}
@@ -59,15 +51,23 @@ public class SynthEngine /*extends Thread*/{
 	}
 	public void startPlaying() {
 		Notes noteFromKey = new Notes();
-		g = new Gain(ac, 1, 1f);
+		Envelope envelope = new Envelope(ac,0.0f);
+		Bead trigger = new Bead() {
+		};
+		envelope.addSegment((float)interf.volSetter.getVolume()/10, interf.envSetter.getStartDelay());
+		envelope.addSegment(0.0f, interf.envSetter.getEndDelay(),trigger);
+		trigger.pause(false);
+		//envelope.addSegment(arg0, arg1)
+		g = new Gain(ac, 1, envelope);
+
 		DefaultSerial alg1 = new DefaultSerial(); 
-		Buffer buffs[] = {Buffer.SINE,Buffer.SINE,Buffer.SINE,Buffer.SINE};
-		System.out.println("geci: " + interf.fmelement.getIntensites()[3]);
+		DefaultParallel alg2 = new DefaultParallel();
 		//alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), buffs, ac, noteFromKey.getFrequencyFromPressedKey(pressedKey))
 		for(int i = 0; i < whichKeysArePressed.size();i++) {
 			Keys pressedKey = whichKeysArePressed.get(i);
-			WavePlayer wpNEW = alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), interf.fmelement.getBuffers(), ac, noteFromKey.getFrequencyFromPressedKey(pressedKey));
-			notes.add(wpNEW);
+			WavePlayer wpNEW = alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), interf.fmelement.getBuffers(), ac, noteFromKey.getFrequencyFromPressedKey(pressedKey),interf.waveSetter.getSelectedBuffer());
+			WavePlayer wpPar = alg2.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), interf.fmelement.getBuffers(), ac, noteFromKey.getFrequencyFromPressedKey(pressedKey),interf.waveSetter.getSelectedBuffer());
+			notes.add(wpPar);
 			//notes.add(alg1.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), buffs, ac, noteFromKey.getFrequencyFromPressedKey(pressedKey))
 //);
 			//notes.add(new WavePlayer(ac, noteFromKey.getFrequencyFromPressedKey(pressedKey), Buffer.SINE));

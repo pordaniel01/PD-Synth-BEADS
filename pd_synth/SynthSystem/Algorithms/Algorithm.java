@@ -6,5 +6,5 @@ import net.beadsproject.beads.ugens.WavePlayer;
 
 public interface Algorithm {
 
-	WavePlayer producedWavePlayer(float[] freqs, float[] intensities, Buffer[] buffs, AudioContext ac, float baseFreq);
+	WavePlayer producedWavePlayer(float[] freqs, float[] intensities, Buffer[] buffs, AudioContext ac, float baseFreq, Buffer baseBuffer);
 }

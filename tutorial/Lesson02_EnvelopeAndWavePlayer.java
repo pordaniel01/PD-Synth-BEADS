@@ -42,6 +42,7 @@ public class Lesson02_EnvelopeAndWavePlayer {
 		   * in Hz.
 		   */
 		  //freqEnv.addSegment(1000, 1000);
+		  //freqEnv.
 		  /*
 		   * Connect it all together as before.
 		   */

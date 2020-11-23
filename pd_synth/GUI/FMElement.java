@@ -83,20 +83,20 @@ public class FMElement extends Component{
 		for(int i = 0; i < 4; i++) {
 			buffers[i] = new JComboBox(bufferOptions);
 			buffers[i].addActionListener(bufferSelectorListener);
-			intensity[i] = new JSlider(0, 500);
-			frequency[i] = new JSlider(0, 50);
+			intensity[i] = new JSlider(0, 50);
+			frequency[i] = new JSlider(0, 30);
 			intensity[i].setValue(0);
 			frequency[i].setValue(0);
 			intensity[i].setName(String.valueOf(i)+"intensity");
 			frequency[i].setName(String.valueOf(i)+"frequency");
-			intensity[i].setMajorTickSpacing(100);
-			intensity[i].setMinorTickSpacing(10);
+			intensity[i].setMajorTickSpacing(10);
+			intensity[i].setMinorTickSpacing(5);
 			intensity[i].setPaintTicks(true);
 			intensity[i].setPaintLabels(true);
 			intensity[i].setOrientation(JSlider.VERTICAL);
 			intensity[i].addChangeListener(cl);
 			frequency[i].setMajorTickSpacing(10);
-			frequency[i].setMinorTickSpacing(5);
+			frequency[i].setMinorTickSpacing(2);
 			frequency[i].setPaintTicks(true);
 			frequency[i].setPaintLabels(true);
 			frequency[i].setOrientation(JSlider.VERTICAL);
@@ -126,6 +126,8 @@ public class FMElement extends Component{
 			
 			c.gridx = 2;
 			c.gridy = padCounter + 1;
+			c.weightx = 0;
+			c.ipadx = 0;
 			c.weighty = 0;
 			c.ipady = 5;
 			FMPanel.add(buffers[i],c);

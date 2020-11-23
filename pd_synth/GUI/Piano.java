@@ -34,7 +34,10 @@ public class Piano extends JComponent implements MouseListener, KeyListener{
 	private Point blackKeysPositions[] = new Point[10];
 	private Point keyPositions[] = new Point[15];
 	private SynthEngine engine;
-	private final Set<Integer> pressedKeyBoardKey = new HashSet<>();
+	private int hitBoxOffsetY = 50;
+	private int hitBoxOffsetX = 0;
+
+	//private final Set<Integer> pressedKeyBoardKey = new HashSet<>();
 	public Piano(Interface interf) {
 		this.interf = interf;
 		pressedKeys = new ArrayList<Keys>(24);
@@ -44,16 +47,16 @@ public class Piano extends JComponent implements MouseListener, KeyListener{
 	}
 	public void paint(Graphics g) {
 		setBackground(Color.white);
-		int shiftX = 60;
-		int shiftY = 150;
-		for(int i = 0; i < numberOfKeys; i++) {
+		int shiftX = 50;
+		int shiftY = 100;
+		for(int i = 0; i < numberOfKeys ; i++) {
 			int pos = i * keyWidth;
 			g.drawLine(pos + shiftX, shiftY, pos + shiftX, keyHeight + shiftY);
 			keyPositions[i] = new Point(pos + shiftX,shiftY);
 
 		}
-		g.drawLine(shiftX, shiftY, numberOfKeys * keyWidth , shiftY);
-		g.drawLine(shiftX, shiftY + keyHeight,numberOfKeys * keyWidth , shiftY + keyHeight);
+		g.drawLine(shiftX, shiftY, (numberOfKeys-1) * keyWidth +50, shiftY);
+		g.drawLine(shiftX, shiftY + keyHeight,(numberOfKeys-1) * keyWidth +50 , shiftY + keyHeight);
 		int blackKey = 0;
 		for(int i = 1; i < numberOfKeys - 1 ; i++) {
 			if(!(i % 7 == 3 || i % 7 == 0)) {
@@ -70,8 +73,8 @@ public class Piano extends JComponent implements MouseListener, KeyListener{
 	private int whichBlackKeyHasBeenPressed(MouseEvent e) {
 		Point mousePosition = e.getPoint();
 		for(int i = 0; i < numberOfBlackKeys; i++) {
-			if(pointInsideOfRectangle(mousePosition, blackKeysPositions[i].x, blackKeysPositions[i].y + 25, 
-													  blackKeyWidth  ,  blackKeyHeight ) )
+			if(pointInsideOfRectangle(mousePosition, blackKeysPositions[i].x, blackKeysPositions[i].y + + hitBoxOffsetY, 
+													  blackKeyWidth  ,  blackKeyHeight + hitBoxOffsetY ) )
 				return i;
 		}
 		return -1;
@@ -79,8 +82,8 @@ public class Piano extends JComponent implements MouseListener, KeyListener{
 	private int whichWhiteKeyHasBeenPressed(MouseEvent e) {
 		Point mousePosition = e.getPoint();	
 		for(int i = 0; i < numberOfKeys; i++) {
-			if(pointInsideOfRectangle(mousePosition, keyPositions[i].x , keyPositions[i].y + 25, 
-													  keyWidth ,  keyHeight) )
+			if(pointInsideOfRectangle(mousePosition, keyPositions[i].x , keyPositions[i].y +  hitBoxOffsetY, 
+													  keyWidth ,  keyHeight + hitBoxOffsetY) )
 				return i;
 				
 		}
@@ -198,27 +201,7 @@ public class Piano extends JComponent implements MouseListener, KeyListener{
 		}
 		engine.getPressedKeys();	
 		engine.startPlaying();
-		/*pressedKeyBoardKey.add(e.getKeyCode());
-		if (!pressedKeyBoardKey.isEmpty()) {
-            for (Iterator<Keys> it = pressedKeys.iterator(); it.hasNext();) {
-                switch (it.next()) {
-                    case KeyEvent.VK_A:
-                    case KeyEvent.VK_S:
-                    case KeyEvent.VK_D:
-                    case KeyEvent.VK_F:
-                    case KeyEvent.VK_G:
-                    case KeyEvent.VK_H:
-                    case KeyEvent.VK_J:
-                    case KeyEvent.VK_K:
-                    case KeyEvent.VK_L:
-                    case KeyEvent.VK_W:
-                    case KeyEvent.VK_E:
-                    case KeyEvent.VK_T:
-                    case KeyEvent.VK_Z:
-                    case KeyEvent.VK_U:
-
-                }
-            }*/
+		
 		
 	}
 	@Override

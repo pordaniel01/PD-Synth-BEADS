@@ -10,17 +10,11 @@ public class DefaultSerial implements Algorithm {
 		
 	}
 	@Override
-	public WavePlayer producedWavePlayer(float[] freqs, float[] intensities, Buffer[] buffs,  AudioContext ac, float baseFreq) {
+	public WavePlayer producedWavePlayer(float[] freqs, float[] intensities, Buffer[] buffs,  AudioContext ac, float baseFreq, Buffer mainBuffer) {
 		WavePlayer FM1 = new WavePlayer(ac, freqs[0], buffs[0]);
 		WavePlayer FM2 = new WavePlayer(ac, freqs[1], buffs[1]);
 		WavePlayer FM3 = new WavePlayer(ac, freqs[2], buffs[2]);
 		WavePlayer FM4 = new WavePlayer(ac, freqs[3], buffs[3]);
-		for(int i = 0; i < 4; i++) {
-			System.out.println("freq" + i + freqs[i]);	
-			System.out.println("inten" + i + intensities[i]);	
-			//System.out.println(buffs[i].toString());	
-
-		}
 		Function func = new Function(FM1,FM2,FM3,FM4) {
 			@Override
 			public float calculate() {
@@ -28,7 +22,7 @@ public class DefaultSerial implements Algorithm {
 						x[2] * intensities[2] + x[3] * intensities[3] + baseFreq;
 			}
 		};
-		WavePlayer output = new WavePlayer(ac, func, Buffer.SINE);
+		WavePlayer output = new WavePlayer(ac, func, mainBuffer);
 		return output;
 	}
 	

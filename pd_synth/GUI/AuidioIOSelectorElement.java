@@ -16,6 +16,7 @@ public class AuidioIOSelectorElement  {
 	public AuidioIOSelectorElement(Interface interf) {
 		this.interf = interf;
 		selector = new AudioIOSelector();
+		selector.selectMixer(0);
 		String outputs[] = selector.getAudioOutputs();
 		jComboBox = new JComboBox(outputs);
 		jComboBox.addActionListener(comboBoxActionListener);
