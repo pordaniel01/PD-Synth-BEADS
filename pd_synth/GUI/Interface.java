@@ -71,9 +71,9 @@ public class Interface {
 		c.gridy = 1;
 		c.gridx = 0;
 		north.add(envSetter.getStartEnvelopeSlider(),c);
-		JTextField envText1 = new JTextField("Start Delay");
+		JTextField envText1 = new JTextField("Attack");
 		envText1.setEditable(false);
-		JTextField envText2 = new JTextField("End Delay");
+		JTextField envText2 = new JTextField("Sustain");
 		envText2.setEditable(false);
 		c.gridx = 1;
 		north.add(envText1,c);

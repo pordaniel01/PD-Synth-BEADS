@@ -26,8 +26,8 @@ public class DefaultParallel implements Algorithm {
 				return x[0] * intensities[2] + x[1] * intensities[3] ;
 			}
 		};
-		WavePlayer thread1 = new WavePlayer(ac, func1, baseBuffer);
-		WavePlayer thread2 = new WavePlayer(ac, func2, baseBuffer);
+		WavePlayer thread1 = new WavePlayer(ac, func1, Buffer.SINE);
+		WavePlayer thread2 = new WavePlayer(ac, func2, Buffer.SINE);
 		Function func3 = new Function(thread1,thread2) {
 			@Override
 			public float calculate() {

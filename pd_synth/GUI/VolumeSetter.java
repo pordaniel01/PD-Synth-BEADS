@@ -15,6 +15,7 @@ public class VolumeSetter {
 		volumeSetter.setMinorTickSpacing(5);
 		volumeSetter.setPaintTicks(true);
 		volumeSetter.setPaintLabels(true);
+		volumeSetter.setValue(5);
 		volume = 15;
 		ChangeListener cl = new ChangeListener(){
 			@Override
