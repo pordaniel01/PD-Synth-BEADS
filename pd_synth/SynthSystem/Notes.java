@@ -1,7 +1,7 @@
 package SynthSystem;
 
 public class Notes {
-	float baseNote = 440;  //This is what the A note is set to
+	float baseNote = 440;  //This is the frequeny of A
 	float TWELTHROOTOFTWO = 1.059463094359f;
 	public Notes() {
 		

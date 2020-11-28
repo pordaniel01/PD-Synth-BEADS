@@ -12,6 +12,7 @@ public class MainWaveFormSetter {
 	String options[] = {"SINE", "SAW", "TRIANGLE", "SQUARE"};
 	Buffer selectedBuffer;
 	Interface iface;
+	String bufferString;
 	public MainWaveFormSetter(Interface iface) {
 		this.iface = iface;
 		box = new JComboBox(options);
@@ -22,21 +23,21 @@ public class MainWaveFormSetter {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String outputString = null;
+			bufferString = null;
 			if(box.getSelectedItem().equals("SINE")) {
 				selectedBuffer = Buffer.SINE;
-				outputString = "SINE";
+				bufferString = "SINE";
 			}else if(box.getSelectedItem().equals("SAW")) {
 				selectedBuffer = Buffer.SAW;
-				outputString = "SAW";
+				bufferString = "SAW";
 			}else if(box.getSelectedItem().equals("TRIANGLE")) {
 				selectedBuffer = Buffer.TRIANGLE;
-				outputString = "Triangle";
+				bufferString = "TRIANGLE";
 			}else if(box.getSelectedItem().equals("SQUARE")) {
 				selectedBuffer = Buffer.SQUARE;
-				outputString = "Square";
+				bufferString = "SQUARE";
 			}
-			iface.setLogMessage("Selected waveform of main soundwave: " + outputString);
+			iface.setLogMessage("Selected waveform of main soundwave: " + bufferString);
 		}
 	};
 	public JComboBox getSelector() {
@@ -44,5 +45,15 @@ public class MainWaveFormSetter {
 	}
 	public Buffer getSelectedBuffer() {
 		return selectedBuffer;
+	}
+	public String getBufferString() {
+		return bufferString;
+	}
+	public void setBuffer(Buffer buffer, String bufferName) {
+		this.selectedBuffer = buffer;
+		this.bufferString = bufferName;
+		System.out.println(bufferName);
+		box.setSelectedItem(bufferName);
+		box.repaint();
 	}
 }

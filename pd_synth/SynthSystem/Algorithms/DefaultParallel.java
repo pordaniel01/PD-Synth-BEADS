@@ -39,4 +39,9 @@ public class DefaultParallel implements Algorithm {
 		return output;
 	}
 
+	@Override
+	public String getAlgorithName() {
+		return "Default Parallel";
+	}
+
 }

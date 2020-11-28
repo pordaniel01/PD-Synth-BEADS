@@ -29,11 +29,13 @@ public class FMElement extends Component{
 	private JPanel  FMPanel;
 	private JComboBox[] buffers;
 	private Interface iface;
+	private String bufferNames[];
 	public FMElement(Interface iface) {
 		this.iface = iface;
 		intensity = new JSlider[4];
 		frequency = new JSlider[4];
 		buffers = new JComboBox[4];
+		bufferNames = new String[4];
 		bufferValues = new Buffer[4];
 		freqs = new float[4];
 		intensities = new float[4];
@@ -42,6 +44,9 @@ public class FMElement extends Component{
 		}
 		for(int i = 0; i < 4; i++) {
 			intensities[0] = 0;
+		}
+		for(int i = 0; i < 4; i++) {
+			bufferNames[i] = "SINE";
 		}
 		FMPanel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -70,9 +75,7 @@ public class FMElement extends Component{
 						freqs[i] = (float)source.getValue();
 						iface.setLogMessage("Frequency modulator number " + nrOfModulator + " frequency set to " + (float)source.getValue() + " hertz");
 					}
-				}
-
-				
+				}				
 			}
 		};
 		
@@ -83,14 +86,14 @@ public class FMElement extends Component{
 		for(int i = 0; i < 4; i++) {
 			buffers[i] = new JComboBox(bufferOptions);
 			buffers[i].addActionListener(bufferSelectorListener);
-			intensity[i] = new JSlider(0, 50);
+			intensity[i] = new JSlider(0, 30);
 			frequency[i] = new JSlider(0, 30);
 			intensity[i].setValue(0);
 			frequency[i].setValue(0);
 			intensity[i].setName(String.valueOf(i)+"intensity");
 			frequency[i].setName(String.valueOf(i)+"frequency");
 			intensity[i].setMajorTickSpacing(10);
-			intensity[i].setMinorTickSpacing(5);
+			intensity[i].setMinorTickSpacing(2);
 			intensity[i].setPaintTicks(true);
 			intensity[i].setPaintLabels(true);
 			intensity[i].setOrientation(JSlider.VERTICAL);
@@ -163,8 +166,6 @@ public class FMElement extends Component{
 		return FMPanel;
 	}
 	public float[] getIntensites() {
-		System.out.println("osztalybansd" +intensities[0]);
-
 		return intensities;
 	}
 	public float[] getFrequencies() {
@@ -173,19 +174,50 @@ public class FMElement extends Component{
 	public Buffer[] getBuffers() {
 		return bufferValues;
 	}
+	public String[] getBufferNames() {
+		return bufferNames;
+	}
+	
+	public void setBuffers(Buffer[] buffs, String[] bufferNames) {
+		bufferValues = buffs;
+		for(int i = 0; i < 4; i++) {
+			buffers[i].setSelectedItem(bufferNames[i]);
+			buffers[i].repaint();
+		}
+	}
+	public void setFrequencies(float[] freqs) {
+		this.freqs = freqs;
+		for(int i = 0; i < 4; i++) {
+			frequency[i].setValue((int) freqs[i]);
+			frequency[i].repaint();
+		}
+	}
+	public void setIntensities(float[] intensities) {
+		this.intensities = intensities;
+		for(int i = 0; i < 4; i++) {
+			intensity[i].setValue((int) intensities[i]);
+			intensity[i].repaint();
+		}
+	}
 	ActionListener bufferSelectorListener = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			for(int i = 0; i < 4; i++) {
-				if(buffers[i].getSelectedItem().equals("SINE"))
+				if(buffers[i].getSelectedItem().equals("SINE")) {
 					bufferValues[i] = Buffer.SINE;
-				else if(buffers[i].getSelectedItem().equals("SAW"))
+				}
+				else if(buffers[i].getSelectedItem().equals("SAW")) {
 					bufferValues[i] = Buffer.SAW;
-				else if(buffers[i].getSelectedItem().equals("TRIANGLE"))
+					
+				}
+				else if(buffers[i].getSelectedItem().equals("TRIANGLE")) {
 					bufferValues[i] = Buffer.TRIANGLE;
-				else if(buffers[i].getSelectedItem().equals("SQUARE"))
+				}
+				else if(buffers[i].getSelectedItem().equals("SQUARE")) {
 					bufferValues[i] = Buffer.SQUARE;
+				}
+				bufferNames[i] = (String) buffers[i].getSelectedItem();
 			}
 			
 		}

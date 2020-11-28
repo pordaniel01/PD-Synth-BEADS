@@ -31,6 +31,12 @@ public class VolumeSetter {
 	public int getVolume() {
 		return volume;
 	}
+	public void setVolume(int volume) {
+
+		this.volume = volume;
+		volumeSetter.setValue(volume);
+		volumeSetter.repaint();
+	}
 	public JSlider getComponent() {
 		return volumeSetter;
 	}

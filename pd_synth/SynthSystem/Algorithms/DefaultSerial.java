@@ -25,6 +25,10 @@ public class DefaultSerial implements Algorithm {
 		WavePlayer output = new WavePlayer(ac, func, mainBuffer);
 		return output;
 	}
+	@Override
+	public String getAlgorithName() {
+		return "Default Serial";
+	}
 	
 
 }

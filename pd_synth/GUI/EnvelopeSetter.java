@@ -55,4 +55,15 @@ public class EnvelopeSetter {
 	public int getEndDelay() {
 		return endDelay;
 	}
+	public void setStartDelay(int attack) {
+		System.out.println("reseting");
+		startDelay = attack;
+		startEnvelope.setValue(attack);
+		startEnvelope.repaint();
+	}
+	public void setEndDelay(int decay) {
+		endDelay = decay;
+		endEnvelope.setValue(decay);
+		endEnvelope.repaint();
+	}
 }
