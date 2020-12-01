@@ -24,12 +24,14 @@ public class SynthEngine /*extends Thread*/{
 	private AudioContext ac;
 	private ArrayList<WavePlayer> notes;
 	Gain g;
-	private float volume;
+	Notes noteFromKey;
+	WavePlayer wp;
 	public SynthEngine(Interface interf) {
 		this.interf = interf;
 		g = new Gain(ac, 1, 0.1f);
 		whichKeysArePressed = new ArrayList<Keys>(24);
 		notes = new ArrayList<WavePlayer>();
+		noteFromKey = new Notes();
 	} 
 	public void stopPlaying() {
 		notes.clear();
@@ -38,7 +40,7 @@ public class SynthEngine /*extends Thread*/{
 		whichKeysArePressed= interf.piano.getPressedKeys();
 	}
 	public void startPlaying() {
-		Notes noteFromKey = new Notes();
+		
 		Envelope envelope = new Envelope(ac,0.0f);
 		envelope.addSegment((float)interf.volSetter.getVolume()/10, interf.envSetter.getStartDelay());
 		envelope.addSegment(0.0f, interf.envSetter.getEndDelay());
@@ -46,7 +48,7 @@ public class SynthEngine /*extends Thread*/{
 		Algorithm alg = interf.algSetter.getSelectedAlgorithm();
 		for(int i = 0; i < whichKeysArePressed.size();i++) {
 			Keys pressedKey = whichKeysArePressed.get(i);
-			WavePlayer wp = alg.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), interf.fmelement.getBuffers(), ac, noteFromKey.getFrequencyFromPressedKey(pressedKey),interf.waveSetter.getSelectedBuffer());
+			wp = alg.producedWavePlayer(interf.fmelement.getFrequencies(), interf.fmelement.getIntensites(), interf.fmelement.getBuffers(), ac, noteFromKey.getFrequencyFromPressedKey(pressedKey),interf.waveSetter.getSelectedBuffer());
 			notes.add(wp);
 		}
 		for(int i = 0; i < notes.size();i++) {
@@ -57,6 +59,27 @@ public class SynthEngine /*extends Thread*/{
 	}
 	public void setAudioContext(AudioContext ac) {
 		this.ac = ac;
+	}
+	public ArrayList<Keys> getWhichKeysArePressed() {
+		return whichKeysArePressed;
+	}
+	public Interface getInterf() {
+		return interf;
+	}
+	public AudioContext getAc() {
+		return ac;
+	}
+	public ArrayList<WavePlayer> getNotes() {
+		return notes;
+	}
+	public Gain getG() {
+		return g;
+	}
+	public Notes getNoteFromKey() {
+		return noteFromKey;
+	}
+	public WavePlayer getWp() {
+		return wp;
 	}
 
 }

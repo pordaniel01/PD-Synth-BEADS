@@ -16,4 +16,7 @@ public class Logger {
 	public JTextField getElement() {
 		return logger;
 	}
+	public String getLog() {
+		return log;
+	}
 }

@@ -31,11 +31,11 @@ public class EnvelopeSetter {
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider) e.getSource();
 				if(source.getName().equals("start")) {
-					iface.setLogMessage("Start Delay set to" + String.valueOf(source.getValue()) + " ms");
+					iface.setLogMessage("Start Delay set to: " + String.valueOf(source.getValue()) + " ms");
 					startDelay = source.getValue();
 				}
 				else if (source.getName().equals("end")) {
-					iface.setLogMessage("End Delay set to" + String.valueOf(source.getValue()) + " ms");
+					iface.setLogMessage("End Delay set to: " + String.valueOf(source.getValue()) + " ms");
 					endDelay = source.getValue();
 				}
 			}
@@ -56,7 +56,6 @@ public class EnvelopeSetter {
 		return endDelay;
 	}
 	public void setStartDelay(int attack) {
-		System.out.println("reseting");
 		startDelay = attack;
 		startEnvelope.setValue(attack);
 		startEnvelope.repaint();

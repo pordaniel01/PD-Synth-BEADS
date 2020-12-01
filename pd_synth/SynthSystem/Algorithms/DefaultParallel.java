@@ -7,6 +7,11 @@ import net.beadsproject.beads.ugens.WavePlayer;
 
 public class DefaultParallel implements Algorithm {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public WavePlayer producedWavePlayer(float[] freqs, float[] intensities, Buffer[] buffs, AudioContext ac,
 			float baseFreq, Buffer baseBuffer) {

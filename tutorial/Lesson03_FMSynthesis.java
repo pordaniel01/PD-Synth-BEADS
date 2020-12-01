@@ -1,13 +1,9 @@
-
-
-import SynthSystem.Algorithms.FreqModulator;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.io.JavaSoundAudioIO;
 import net.beadsproject.beads.data.Buffer;
 import net.beadsproject.beads.ugens.Function;
 import net.beadsproject.beads.ugens.Gain;
 import net.beadsproject.beads.ugens.WavePlayer;
-
 
 public class Lesson03_FMSynthesis {
 

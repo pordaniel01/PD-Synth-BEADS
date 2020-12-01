@@ -18,6 +18,7 @@ public class MainWaveFormSetter {
 		box = new JComboBox(options);
 		box.addActionListener(al);
 		selectedBuffer = Buffer.SINE;
+		bufferString = "SINE";
 	}
 	ActionListener al = new ActionListener() {
 		
@@ -52,7 +53,6 @@ public class MainWaveFormSetter {
 	public void setBuffer(Buffer buffer, String bufferName) {
 		this.selectedBuffer = buffer;
 		this.bufferString = bufferName;
-		System.out.println(bufferName);
 		box.setSelectedItem(bufferName);
 		box.repaint();
 	}

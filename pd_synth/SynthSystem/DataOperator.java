@@ -18,11 +18,11 @@ public class DataOperator implements Serializable{
 	private static final long serialVersionUID = 1L;
 		
 	private transient Interface iface;
-	public int gain;
+	private int gain;
 	private float freqs[];
 	private float intensities[];
 	private int attack;
-	public int decay;
+	private int decay;
 	private Buffer fmBuffers[];
 	private Buffer mainBuffer;
 	private Algorithm alg;
@@ -44,8 +44,7 @@ public class DataOperator implements Serializable{
 		mainBuffer = iface.waveSetter.getSelectedBuffer();
 		mainBufferString = iface.waveSetter.getBufferString();
 		fmBufferStrings = iface.fmelement.getBufferNames();
-		for(int i = 0; i < 4;i++)
-			System.out.print(fmBufferStrings[i]);
+		alg = iface.algSetter.getSelectedAlgorithm();
 	}
 	public void setData() {
 		iface.volSetter.setVolume(gain);
@@ -55,7 +54,37 @@ public class DataOperator implements Serializable{
 		iface.envSetter.setEndDelay(decay);
 		iface.envSetter.setStartDelay(attack);
 		iface.waveSetter.setBuffer(mainBuffer,mainBufferString);
-
+		iface.algSetter.setSelectedAlgoritm(alg);
+	}
+	public Interface getIface() {
+		return iface;
+	}
+	public int getGain() {
+		return gain;
+	}
+	public float[] getFreqs() {
+		return freqs;
+	}
+	public float[] getIntensities() {
+		return intensities;
+	}
+	public int getAttack() {
+		return attack;
+	}
+	public int getDecay() {
+		return decay;
+	}
+	public Buffer[] getFmBuffers() {
+		return fmBuffers;
+	}
+	public Buffer getMainBuffer() {
+		return mainBuffer;
+	}
+	public String getMainBufferString() {
+		return mainBufferString;
+	}
+	public String[] getFmBufferStrings() {
+		return fmBufferStrings;
 	}
 	
 	

@@ -28,6 +28,15 @@ public class AlgorithmSetter {
 	public Algorithm getSelectedAlgorithm() {
 		return selectedAlgorithm;
 	}
+	public void setSelectedAlgoritm(Algorithm alg) {
+		selectedAlgorithm = alg;
+		System.out.print(alg.getAlgorithName());
+		if(alg.getAlgorithName().equals("Default Parallel")) {
+			selector.setSelectedItem("Algorithm 2");
+		} else if(alg.getAlgorithName().equals("Default Serial"))
+			selector.setSelectedItem("Algorithm 1");
+		selector.repaint();
+	}
 	public JComboBox getComponent() {
 		return selector;
 	}

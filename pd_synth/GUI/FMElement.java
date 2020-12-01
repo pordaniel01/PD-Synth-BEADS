@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
@@ -21,8 +22,10 @@ import javax.swing.event.ChangeListener;
 import net.beadsproject.beads.data.Buffer;
 
 public class FMElement extends Component{
-	private JSlider intensity[];
-	private JSlider frequency[];
+	//private JSlider intensity[];
+	//private JSlider frequency[];
+	private ArrayList<JSlider> intensity;
+	private ArrayList<JSlider> frequency;
 	private Buffer bufferValues[];
 	private float freqs[];
 	private float intensities[];
@@ -32,8 +35,8 @@ public class FMElement extends Component{
 	private String bufferNames[];
 	public FMElement(Interface iface) {
 		this.iface = iface;
-		intensity = new JSlider[4];
-		frequency = new JSlider[4];
+		intensity = new ArrayList<JSlider>(4);
+		frequency = new ArrayList<JSlider>(4);
 		buffers = new JComboBox[4];
 		bufferNames = new String[4];
 		bufferValues = new Buffer[4];
@@ -86,24 +89,26 @@ public class FMElement extends Component{
 		for(int i = 0; i < 4; i++) {
 			buffers[i] = new JComboBox(bufferOptions);
 			buffers[i].addActionListener(bufferSelectorListener);
-			intensity[i] = new JSlider(0, 30);
-			frequency[i] = new JSlider(0, 30);
-			intensity[i].setValue(0);
-			frequency[i].setValue(0);
-			intensity[i].setName(String.valueOf(i)+"intensity");
-			frequency[i].setName(String.valueOf(i)+"frequency");
-			intensity[i].setMajorTickSpacing(10);
-			intensity[i].setMinorTickSpacing(2);
-			intensity[i].setPaintTicks(true);
-			intensity[i].setPaintLabels(true);
-			intensity[i].setOrientation(JSlider.VERTICAL);
-			intensity[i].addChangeListener(cl);
-			frequency[i].setMajorTickSpacing(10);
-			frequency[i].setMinorTickSpacing(2);
-			frequency[i].setPaintTicks(true);
-			frequency[i].setPaintLabels(true);
-			frequency[i].setOrientation(JSlider.VERTICAL);
-			frequency[i].addChangeListener(cl);
+			JSlider intensitySlider = new JSlider(0, 30);
+			JSlider frequencySlider = new JSlider(0, 30);
+			intensitySlider.setValue(0);
+			frequencySlider.setValue(0);
+			intensitySlider.setName(String.valueOf(i)+"intensity");
+			frequencySlider.setName(String.valueOf(i)+"frequency");
+			intensitySlider.setMajorTickSpacing(10);
+			intensitySlider.setMinorTickSpacing(2);
+			intensitySlider.setPaintTicks(true);
+			intensitySlider.setPaintLabels(true);
+			intensitySlider.setOrientation(JSlider.VERTICAL);
+			intensitySlider.addChangeListener(cl);
+			frequencySlider.setMajorTickSpacing(10);
+			frequencySlider.setMinorTickSpacing(2);
+			frequencySlider.setPaintTicks(true);
+			frequencySlider.setPaintLabels(true);
+			frequencySlider.setOrientation(JSlider.VERTICAL);
+			frequencySlider.addChangeListener(cl);
+			intensity.add(intensitySlider);
+			frequency.add(frequencySlider);
 			JTextField text1 = new JTextField("Frequency " + (i+1));
 			JTextField text2 = new JTextField("Intensity " + (i+1));
 			text1.setEditable(false);
@@ -118,14 +123,14 @@ public class FMElement extends Component{
 			c.ipady = 50;
 			c.fill = GridBagConstraints.VERTICAL;
 			c.weighty = 1.0;
-			FMPanel.add(frequency[i],c);
+			FMPanel.add(frequency.get(i),c);
 			
 			c.gridx = 1;
 			c.gridy = padCounter;
 			c.ipady = 40;
 			c.fill = GridBagConstraints.VERTICAL;
 			c.weighty = 1.0;
-			FMPanel.add(intensity[i],c);
+			FMPanel.add(intensity.get(i),c);
 			
 			c.gridx = 2;
 			c.gridy = padCounter + 1;
@@ -156,10 +161,10 @@ public class FMElement extends Component{
 			
 		}	
 	}
-	public JSlider[] getIntensitySlider() {
+	public ArrayList<JSlider> getIntensitySlider() {
 		return intensity;
 	}
-	public JSlider[] getFrequencySlider() {
+	public ArrayList<JSlider> getFrequencySlider() {
 		return  frequency;
 	}
 	public JPanel getFMPanel() {
@@ -188,15 +193,15 @@ public class FMElement extends Component{
 	public void setFrequencies(float[] freqs) {
 		this.freqs = freqs;
 		for(int i = 0; i < 4; i++) {
-			frequency[i].setValue((int) freqs[i]);
-			frequency[i].repaint();
+			frequency.get(i).setValue((int) freqs[i]);
+			frequency.get(i).repaint();
 		}
 	}
 	public void setIntensities(float[] intensities) {
 		this.intensities = intensities;
 		for(int i = 0; i < 4; i++) {
-			intensity[i].setValue((int) intensities[i]);
-			intensity[i].repaint();
+			intensity.get(i).setValue((int) intensities[i]);
+			intensity.get(i).repaint();
 		}
 	}
 	ActionListener bufferSelectorListener = new ActionListener() {
@@ -209,7 +214,6 @@ public class FMElement extends Component{
 				}
 				else if(buffers[i].getSelectedItem().equals("SAW")) {
 					bufferValues[i] = Buffer.SAW;
-					
 				}
 				else if(buffers[i].getSelectedItem().equals("TRIANGLE")) {
 					bufferValues[i] = Buffer.TRIANGLE;
@@ -219,6 +223,10 @@ public class FMElement extends Component{
 				}
 				bufferNames[i] = (String) buffers[i].getSelectedItem();
 			}
+			iface.setLogMessage("Mod soundform 1: " + bufferNames[0] 
+								+"    Mod soundform 2: "+ bufferNames[1] 
+								+"    Mod soundform 3: "+ bufferNames[2]
+								+"    Mod soundform 4: "+ bufferNames[3]);
 			
 		}
 	};

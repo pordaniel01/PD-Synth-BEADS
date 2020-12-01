@@ -11,20 +11,16 @@ import net.beadsproject.beads.core.io.JavaSoundAudioIO;
 public class AudioIOSelector {
 	AudioContext ac;
 	public JavaSoundAudioIO aoi;
-	private SynthEngine engine;
 	int numberOfMixer;
 	public AudioIOSelector() {
 
 	}
-	public void setEngine(SynthEngine engine) {
-		this.engine = engine;
-	}
+
 	public void selectMixer(int numberOfMixer) {
 		this.numberOfMixer = numberOfMixer;
 		aoi = new JavaSoundAudioIO();
 		aoi.selectMixer(numberOfMixer);
 		ac = new AudioContext(aoi);
-		//System.out.println(ac.getAudioIO().toString());
 	}
 	private String[] removeAudioDescriptionFromOutputLog(String outputsWithDescriptions[]) {
 		int size = outputsWithDescriptions.length;
@@ -39,7 +35,7 @@ public class AudioIOSelector {
 			if(Character.isDigit(outputsWithDescriptions[i].charAt(0))){
 				output[j++] = outputsWithDescriptions[i];
 			}
-		}
+		} 
 		return output;
 	}
 	public String[] getAudioOutputs() {

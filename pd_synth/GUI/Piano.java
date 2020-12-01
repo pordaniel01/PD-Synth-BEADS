@@ -34,10 +34,9 @@ public class Piano extends JComponent implements MouseListener, KeyListener{
 	private Point blackKeysPositions[] = new Point[10];
 	private Point keyPositions[] = new Point[15];
 	private SynthEngine engine;
-	private int hitBoxOffsetY = 50;
+	private int hitBoxOffsetY = 80;
 	private int hitBoxOffsetX = 0;
 
-	//private final Set<Integer> pressedKeyBoardKey = new HashSet<>();
 	public Piano(Interface interf) {
 		this.interf = interf;
 		pressedKeys = new ArrayList<Keys>(24);
@@ -67,13 +66,14 @@ public class Piano extends JComponent implements MouseListener, KeyListener{
 			}
 		}
 	}
-	private boolean pointInsideOfRectangle(Point p, int x1, int y1, int width, int height) {
+	//This funciton is set to public so it can be tested
+	public boolean pointInsideOfRectangle(Point p, int x1, int y1, int width, int height) {
 		return p.x > x1 && p.x < (x1 + width) && p.y > y1 && p.y < (y1 + height);
 	}
 	private int whichBlackKeyHasBeenPressed(MouseEvent e) {
 		Point mousePosition = e.getPoint();
 		for(int i = 0; i < numberOfBlackKeys; i++) {
-			if(pointInsideOfRectangle(mousePosition, blackKeysPositions[i].x, blackKeysPositions[i].y + + hitBoxOffsetY, 
+			if(pointInsideOfRectangle(mousePosition, blackKeysPositions[i].x, blackKeysPositions[i].y + hitBoxOffsetY, 
 													  blackKeyWidth  ,  blackKeyHeight + hitBoxOffsetY ) )
 				return i;
 		}
@@ -89,7 +89,8 @@ public class Piano extends JComponent implements MouseListener, KeyListener{
 		}
 		return -1;
 	}
-	private Keys createKeyValueOutOfWhiteKey(int key) {
+	//Set to public in order to test
+	public Keys createKeyValueOutOfWhiteKey(int key) {
 		switch(key) {
 			case 0: return Keys.C;
 			case 1: return Keys.D;

@@ -6,6 +6,10 @@ import net.beadsproject.beads.ugens.Function;
 import net.beadsproject.beads.ugens.WavePlayer;
 
 public class DefaultSerial implements Algorithm {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5076642410504452105L;
 	public DefaultSerial() {
 		
 	}
