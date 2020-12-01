@@ -17,6 +17,7 @@ import SynthSystem.SynthEngine;
 import net.beadsproject.beads.core.AudioContext;
 
 public class Interface {
+	private double versionNumber;
 	private JFrame mainframe;
 	private BorderLayout layout;
 	public JPanel mainPanel; 
@@ -24,7 +25,6 @@ public class Interface {
 	public FMElement fmelement;
 	private Logger logger;
 	public Piano piano;
-	double versionNumber;
 	public AuidioIOSelectorElement selectorList;
 	public SynthEngine engine;
 	public VolumeSetter volSetter;
@@ -65,7 +65,7 @@ public class Interface {
 		c.gridx = 3;
 		north.add(waveText,c);
 		c.gridx = 4;
-		north.add(waveSetter.getSelector(),c);
+		north.add(waveSetter.getSelector(),c); 
 		
 		envSetter = new EnvelopeSetter(this);
 		c.gridy = 1;

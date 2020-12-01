@@ -26,7 +26,7 @@ public class SynthEngine /*extends Thread*/{
 	Gain g;
 	Notes noteFromKey;
 	WavePlayer wp;
-	public SynthEngine(Interface interf) {
+	public SynthEngine(Interface interf) { 
 		this.interf = interf;
 		g = new Gain(ac, 1, 0.1f);
 		whichKeysArePressed = new ArrayList<Keys>(24);

@@ -1,4 +1,5 @@
-package Tests;
+package SystemTests;
+
 
 import static org.junit.Assert.*;
 
@@ -55,7 +56,6 @@ public class SystemTests {
 		assertArrayEquals( fmBuffers,operator.getFmBuffers());
 		assertTrue(Arrays.equals(freqs, operator.getFreqs()));
 		assertTrue(Arrays.equals(intensities, operator.getIntensities()));
-
 	}
 	@Test 
 	public void testNotes() {
@@ -72,7 +72,6 @@ public class SystemTests {
 		assertTrue(Arrays.equals( intensities,iface.getFmelement().getIntensites()));
 		assertEquals(15,iface.getVolSetter().getVolume());
 		assertEquals(Buffer.SINE,iface.getWaveSetter().getSelectedBuffer());
-
 	}
 	
 	@Before
@@ -84,7 +83,6 @@ public class SystemTests {
 		assertTrue(piano.pointInsideOfRectangle(new Point(2,2), 0, 0, 10, 10));
 		assertEquals(Keys.C,piano.createKeyValueOutOfWhiteKey(0));
 		assertEquals(Keys.E,piano.createKeyValueOutOfWhiteKey(2));
-
 	}
 	@Before
 	public void prepAudioIOSel() {

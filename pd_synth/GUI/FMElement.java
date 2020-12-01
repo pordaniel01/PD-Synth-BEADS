@@ -22,8 +22,6 @@ import javax.swing.event.ChangeListener;
 import net.beadsproject.beads.data.Buffer;
 
 public class FMElement extends Component{
-	//private JSlider intensity[];
-	//private JSlider frequency[];
 	private ArrayList<JSlider> intensity;
 	private ArrayList<JSlider> frequency;
 	private Buffer bufferValues[];

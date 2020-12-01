@@ -52,7 +52,7 @@ public class DataOperator implements Serializable{
 		iface.fmelement.setFrequencies(freqs);
 		iface.fmelement.setBuffers(fmBuffers,fmBufferStrings);
 		iface.envSetter.setEndDelay(decay);
-		iface.envSetter.setStartDelay(attack);
+		iface.envSetter.setStartDelay(attack); 
 		iface.waveSetter.setBuffer(mainBuffer,mainBufferString);
 		iface.algSetter.setSelectedAlgoritm(alg);
 	}
